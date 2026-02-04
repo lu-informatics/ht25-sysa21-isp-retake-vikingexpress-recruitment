@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            prefWidth="450.0" prefHeight="420.0"
+            fx:controller="se.lu.ics.controllers.ApplicationDialogController">
+    <children>
+        <Label text="Application ID:" layoutX="20" layoutY="20"/>
+        <TextField fx:id="textFieldId" layoutX="180" layoutY="20" prefWidth="250" editable="false"/>
+       
+        <Label text="Candidate:" layoutX="20" layoutY="60"/>
+        <ComboBox fx:id="comboBoxCandidate" layoutX="180" layoutY="60" prefWidth="250"/>
+       
+        <Label text="Recruitment:" layoutX="20" layoutY="100"/>
+        <ComboBox fx:id="comboBoxRecruitment" layoutX="180" layoutY="100" prefWidth="250"/>
+       
+        <Label text="Application Date:" layoutX="20" layoutY="140"/>
+        <DatePicker fx:id="datePickerApplication" layoutX="180" layoutY="140" prefWidth="250"/>
+       
+        <Label text="Ranking (1=highest):" layoutX="20" layoutY="180"/>
+        <TextField fx:id="textFieldRanking" layoutX="180" layoutY="180" prefWidth="250" promptText="0 = not ranked"/>
+       
+        <CheckBox fx:id="checkBoxOfferAccepted" text="Offer Accepted" layoutX="20" layoutY="220"/>
+       
+        <Label text="Acceptance Date:" layoutX="20" layoutY="260"/>
+        <DatePicker fx:id="datePickerOfferAccepted" layoutX="180" layoutY="260" prefWidth="250"/>
+       
+        <Button text="Save" layoutX="180" layoutY="320" onAction="#handleSave"/>
+        <Button text="Cancel" layoutX="250" layoutY="320" onAction="#handleCancel"/>
+       
+        <Label fx:id="labelResponse" layoutX="20" layoutY="370" prefWidth="410" visible="false"/>
+    </children>
+</AnchorPane>

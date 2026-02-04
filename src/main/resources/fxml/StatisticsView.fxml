@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            prefWidth="1000.0" prefHeight="650.0"
+            fx:controller="se.lu.ics.controllers.StatisticsViewController">
+    <children>
+        <Label text="VikingExpress Recruitment Statistics" layoutX="20" layoutY="20"
+               style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+       
+        <Label fx:id="labelAverageDaysToAcceptance" layoutX="20" layoutY="70"
+               style="-fx-font-size: 14;" prefWidth="960"/>
+        <Label fx:id="labelAverageInterviewsPerOffer" layoutX="20" layoutY="100"
+               style="-fx-font-size: 14;" prefWidth="960"/>
+        <Label fx:id="labelMostPopularRole" layoutX="20" layoutY="130"
+               style="-fx-font-size: 14;" prefWidth="960"/>
+       
+        <Separator layoutX="20" layoutY="170" prefWidth="960"/>
+       
+        <Label text="Recruitments in Period" layoutX="20" layoutY="190"
+               style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+       
+        <Label text="Start Date:" layoutX="20" layoutY="230"/>
+        <DatePicker fx:id="datePickerStartDate" layoutX="120" layoutY="230" prefWidth="200"/>
+       
+        <Label text="End Date:" layoutX="350" layoutY="230"/>
+        <DatePicker fx:id="datePickerEndDate" layoutX="450" layoutY="230" prefWidth="200"/>
+       
+        <Button text="Search" layoutX="680" layoutY="230" onAction="#handleSearchPeriod"/>
+       
+        <TableView fx:id="tableViewRecruitmentsInPeriod"
+                   layoutX="20" layoutY="280"
+                   prefWidth="960" prefHeight="280">
+            <columns>
+                <TableColumn fx:id="colRecruitmentId" text="ID" prefWidth="150"/>
+                <TableColumn fx:id="colRole" text="Role" prefWidth="400"/>
+                <TableColumn fx:id="colStatus" text="Status" prefWidth="150"/>
+            </columns>
+        </TableView>
+       
+        <Button text="Close" layoutX="900" layoutY="590" onAction="#handleClose"/>
+       
+        <Label fx:id="labelResponse" layoutX="20" layoutY="590" prefWidth="860" visible="false"/>
+    </children>
+</AnchorPane>
