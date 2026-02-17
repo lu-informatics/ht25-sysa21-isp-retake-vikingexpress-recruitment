@@ -27,8 +27,31 @@ public class ApplicationRegister {
 
 
     public void removeApplication(Application application) {
-        this.applications.remove(application);
+    if (application.getCandidate() != null) {
+    application.getCandidate().removeApplication(application);
     }
+    if (application.getRecruitment() != null) {
+    application.getRecruitment().removeApplication(application);
+    }
+    this.applications.remove(application);
+    }
+
+
+    public void removeApplicationsByCandidate(Candidate candidate) {
+    ObservableList<Application> toRemove = FXCollections.observableArrayList();
+    for (Application app : applications) {
+        if (app.getCandidate() != null && app.getCandidate().equals(candidate)) {
+            toRemove.add(app);
+        }
+    }
+    for (Application app : toRemove) {
+        if (app.getRecruitment() != null) {
+            app.getRecruitment().removeApplication(app);
+        }
+        applications.remove(app);
+    }
+    }
+
 
 
     public Application findApplicationById(String id) {

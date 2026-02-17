@@ -310,6 +310,7 @@ public class MainViewController {
     public void handleDeleteCandidate(ActionEvent event) {
         Candidate selected = tableViewCandidates.getSelectionModel().getSelectedItem();
         if (selected != null) {
+            appModel.getApplicationRegister().removeApplicationsByCandidate(selected);
             appModel.getCandidateRegister().removeCandidate(selected);
             labelCandidateResponse.setText("Candidate deleted successfully.");
             labelCandidateResponse.setVisible(true);
