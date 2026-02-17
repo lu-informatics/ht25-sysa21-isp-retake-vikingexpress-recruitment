@@ -86,7 +86,7 @@ public class RecruitmentDialogController {
             return false;
         }
        
-        if (datePickerDeadline.getValue().isBefore(LocalDate.now())) {
+        if (recruitment == null && datePickerDeadline.getValue().isBefore(LocalDate.now())) {
             labelResponse.setText("Application deadline cannot be in the past.");
             labelResponse.setVisible(true);
             return false;
