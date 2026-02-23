@@ -197,7 +197,9 @@ public class MainViewController {
     public void handleDeleteRecruitment(ActionEvent event) {
         Recruitment selected = tableViewRecruitments.getSelectionModel().getSelectedItem();
         if (selected != null) {
-            appModel.getRecruitmentRegister().removeRecruitment(selected);
+            appModel.getInterviewRegister().removeInterviewsByRecruitment(selected);
+appModel.getApplicationRegister().removeApplicationsByRecruitment(selected);
+appModel.getRecruitmentRegister().removeRecruitment(selected);
             labelRecruitmentResponse.setText("Recruitment deleted successfully.");
             labelRecruitmentResponse.setVisible(true);
         } else {
@@ -258,19 +260,23 @@ public class MainViewController {
     }
 
 
-    @FXML
-    public void handleDeleteRole(ActionEvent event) {
-        Role selected = tableViewRoles.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-            appModel.getRoleRegister().removeRole(selected);
-            labelRoleResponse.setText("Role deleted successfully.");
+   @FXML
+public void handleDeleteRole(ActionEvent event) {
+    Role selected = tableViewRoles.getSelectionModel().getSelectedItem();
+    if (selected != null) {
+        if (!selected.getRecruitments().isEmpty()) {
+            labelRoleResponse.setText("Cannot delete role with existing recruitments.");
             labelRoleResponse.setVisible(true);
-        } else {
-            labelRoleResponse.setText("Please select a role to delete.");
-            labelRoleResponse.setVisible(true);
+            return;
         }
+        appModel.getRoleRegister().removeRole(selected);
+        labelRoleResponse.setText("Role deleted successfully.");
+        labelRoleResponse.setVisible(true);
+    } else {
+        labelRoleResponse.setText("Please select a role to delete.");
+        labelRoleResponse.setVisible(true);
     }
-
+}
 
     // Candidate handlers
     @FXML
@@ -310,8 +316,9 @@ public class MainViewController {
     public void handleDeleteCandidate(ActionEvent event) {
         Candidate selected = tableViewCandidates.getSelectionModel().getSelectedItem();
         if (selected != null) {
-            appModel.getApplicationRegister().removeApplicationsByCandidate(selected);
-            appModel.getCandidateRegister().removeCandidate(selected);
+            appModel.getInterviewRegister().removeInterviewsByCandidate(selected);
+appModel.getApplicationRegister().removeApplicationsByCandidate(selected);
+appModel.getCandidateRegister().removeCandidate(selected);
             labelCandidateResponse.setText("Candidate deleted successfully.");
             labelCandidateResponse.setVisible(true);
         } else {

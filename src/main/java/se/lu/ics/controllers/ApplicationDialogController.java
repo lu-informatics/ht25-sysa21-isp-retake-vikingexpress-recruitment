@@ -36,15 +36,20 @@ public class ApplicationDialogController {
                 Application newApplication = new Application(id, candidate, recruitment, applicationDate);
                
                 if (!textFieldRanking.getText().isEmpty()) {
-                    try {
-                        int ranking = Integer.parseInt(textFieldRanking.getText());
-                        newApplication.setRanking(ranking);
-                    } catch (NumberFormatException e) {
-                        labelResponse.setText("Invalid ranking value.");
-                        labelResponse.setVisible(true);
-                        return;
-                    }
-                }
+    try {
+        int ranking = Integer.parseInt(textFieldRanking.getText().trim());
+        if (ranking < 1) {
+            labelResponse.setText("Ranking must be a positive integer.");
+            labelResponse.setVisible(true);
+            return;
+        }
+        newApplication.setRanking(ranking);
+    } catch (NumberFormatException e) {
+        labelResponse.setText("Invalid ranking value.");
+        labelResponse.setVisible(true);
+        return;
+    }
+}
                
                 if (checkBoxOfferAccepted.isSelected() && datePickerOfferAccepted.getValue() != null) {
                     newApplication.acceptOffer(datePickerOfferAccepted.getValue());
@@ -60,17 +65,21 @@ public class ApplicationDialogController {
                 application.setRecruitment(comboBoxRecruitment.getValue());
                 application.setApplicationDate(datePickerApplication.getValue());
                
-                if (!textFieldRanking.getText().isEmpty()) {
-                    try {
-                        int ranking = Integer.parseInt(textFieldRanking.getText());
-                        application.setRanking(ranking);
-                    } catch (NumberFormatException e) {
-                        labelResponse.setText("Invalid ranking value.");
-                        labelResponse.setVisible(true);
-                        return;
-                    }
-                }
-               
+             if (!textFieldRanking.getText().isEmpty()) {
+    try {
+        int ranking = Integer.parseInt(textFieldRanking.getText().trim());
+        if (ranking < 1) {
+            labelResponse.setText("Ranking must be a positive integer.");
+            labelResponse.setVisible(true);
+            return;
+        }
+        application.setRanking(ranking);
+    } catch (NumberFormatException e) {
+        labelResponse.setText("Invalid ranking value.");
+        labelResponse.setVisible(true);
+        return;
+    }
+}
                 if (checkBoxOfferAccepted.isSelected() && datePickerOfferAccepted.getValue() != null) {
                     application.acceptOffer(datePickerOfferAccepted.getValue());
                 } else {

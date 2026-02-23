@@ -51,6 +51,17 @@ public class ApplicationRegister {
         applications.remove(app);
     }
     }
+public void removeApplicationsByRecruitment(Recruitment recruitment) {
+    ObservableList<Application> toRemove = FXCollections.observableArrayList();
+    for (Application app : applications) {
+        if (app.getRecruitment() != null && app.getRecruitment().equals(recruitment)) {
+            toRemove.add(app);
+        }
+    }
+    for (Application app : toRemove) {
+        removeApplication(app);
+    }
+}
 
 
 

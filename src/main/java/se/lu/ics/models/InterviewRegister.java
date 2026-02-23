@@ -31,6 +31,7 @@ public class InterviewRegister {
     }
 
 
+
     public Interview findInterviewById(String id) {
         for (Interview interview : interviews) {
             if (interview.getId().equals(id)) {
@@ -39,6 +40,28 @@ public class InterviewRegister {
         }
         return null;
     }
+public void removeInterviewsByRecruitment(Recruitment recruitment) {
+    ObservableList<Interview> toRemove = FXCollections.observableArrayList();
+    for (Interview interview : interviews) {
+        if (interview.getRecruitment() != null && interview.getRecruitment().equals(recruitment)) {
+            toRemove.add(interview);
+        }
+    }
+    for (Interview interview : toRemove) {
+        removeInterview(interview);
+    }
+}public void removeInterviewsByCandidate(Candidate candidate) {
+    ObservableList<Interview> toRemove = FXCollections.observableArrayList();
+    for (Interview interview : interviews) {
+        if (interview.getCandidate() != null && interview.getCandidate().equals(candidate)) {
+            toRemove.add(interview);
+        }
+    }
+    for (Interview interview : toRemove) {
+        removeInterview(interview);
+    }
+}
+
 
 
     public String generateInterviewId() {
