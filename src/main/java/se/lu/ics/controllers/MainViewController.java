@@ -408,22 +408,24 @@ appModel.getCandidateRegister().removeCandidate(selected);
 
 
     @FXML
-    public void handleEditApplication(ActionEvent event) {
-        Application selected = tableViewApplications.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-            try {
-                appController.showApplicationDialog(selected);
-                tableViewApplications.refresh();
-                labelApplicationResponse.setText("Application updated successfully.");
-                labelApplicationResponse.setVisible(true);
-            } catch (IOException e) {
-                labelApplicationResponse.setText("Error editing application.");
-                labelApplicationResponse.setVisible(true);
-            }
-        } else {
-            labelApplicationResponse.setText("Please select an application to edit.");
+public void handleEditApplication(ActionEvent event) {
+    Application selected = tableViewApplications.getSelectionModel().getSelectedItem();
+    if (selected != null) {
+        try {
+            appController.showApplicationDialog(selected);
+            tableViewApplications.refresh();
+            tableViewRecruitments.refresh();
+            labelApplicationResponse.setText("Application updated successfully.");
+            labelApplicationResponse.setVisible(true);
+        } catch (IOException e) {
+            labelApplicationResponse.setText("Error editing application.");
             labelApplicationResponse.setVisible(true);
         }
+    } else {
+        labelApplicationResponse.setText("Please select an application to edit.");
+        labelApplicationResponse.setVisible(true);
+    }
+
     }
 
 
