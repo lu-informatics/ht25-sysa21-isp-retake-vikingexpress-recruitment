@@ -199,9 +199,7 @@ public class MainViewController {
     public void handleDeleteRecruitment(ActionEvent event) {
         Recruitment selected = tableViewRecruitments.getSelectionModel().getSelectedItem();
         if (selected != null) {
-            appModel.getInterviewRegister().removeInterviewsByRecruitment(selected);
-appModel.getApplicationRegister().removeApplicationsByRecruitment(selected);
-appModel.getRecruitmentRegister().removeRecruitment(selected);
+            appModel.getRecruitmentRegister().removeRecruitment(selected);
             labelRecruitmentResponse.setText("Recruitment deleted successfully.");
             labelRecruitmentResponse.setVisible(true);
         } else {
@@ -262,22 +260,29 @@ appModel.getRecruitmentRegister().removeRecruitment(selected);
     }
 
 
-   @FXML
-   public void handleDeleteRole(ActionEvent event) {
-       Role selected = tableViewRoles.getSelectionModel().getSelectedItem();
-       if (selected != null) {
-           List<Recruitment> recruitmentsToRemove = new ArrayList<>(selected.getRecruitments());
-           for (Recruitment recruitment : recruitmentsToRemove) {
-            appModel.getRecruitmentRegister().removeRecruitment(recruitment);
-           }
-           appModel.getRoleRegister().removeRole(selected);
-           labelRoleResponse.setText("Role deleted successfully.");
-           labelRoleResponse.setVisible(true);
-       } else {
+    @FXML
+    public void handleDeleteRole(ActionEvent event) {
+        Role selected = tableViewRoles.getSelectionModel().getSelectedItem();
+
+        if (selected == null) {
            labelRoleResponse.setText("Please select a role to delete.");
            labelRoleResponse.setVisible(true);
+           return;
     }
-}
+
+   
+    if (!selected.getRecruitments().isEmpty()) {
+        labelRoleResponse.setText(
+            "Cannot delete role. Remove associated recruitments first."
+        );
+        labelRoleResponse.setVisible(true);
+        return;
+    }
+
+    appModel.getRoleRegister().removeRole(selected);
+    labelRoleResponse.setText("Role deleted successfully.");
+    labelRoleResponse.setVisible(true);
+    }
 
     // Candidate handlers
     @FXML
@@ -317,9 +322,8 @@ appModel.getRecruitmentRegister().removeRecruitment(selected);
     public void handleDeleteCandidate(ActionEvent event) {
         Candidate selected = tableViewCandidates.getSelectionModel().getSelectedItem();
         if (selected != null) {
-            appModel.getInterviewRegister().removeInterviewsByCandidate(selected);
-appModel.getApplicationRegister().removeApplicationsByCandidate(selected);
-appModel.getCandidateRegister().removeCandidate(selected);
+            appModel.getApplicationRegister().removeApplicationsByCandidate(selected);
+            appModel.getCandidateRegister().removeCandidate(selected);
             labelCandidateResponse.setText("Candidate deleted successfully.");
             labelCandidateResponse.setVisible(true);
         } else {
@@ -409,24 +413,22 @@ appModel.getCandidateRegister().removeCandidate(selected);
 
 
     @FXML
-public void handleEditApplication(ActionEvent event) {
-    Application selected = tableViewApplications.getSelectionModel().getSelectedItem();
-    if (selected != null) {
-        try {
-            appController.showApplicationDialog(selected);
-            tableViewApplications.refresh();
-            tableViewRecruitments.refresh();
-            labelApplicationResponse.setText("Application updated successfully.");
-            labelApplicationResponse.setVisible(true);
-        } catch (IOException e) {
-            labelApplicationResponse.setText("Error editing application.");
+    public void handleEditApplication(ActionEvent event) {
+        Application selected = tableViewApplications.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            try {
+                appController.showApplicationDialog(selected);
+                tableViewApplications.refresh();
+                labelApplicationResponse.setText("Application updated successfully.");
+                labelApplicationResponse.setVisible(true);
+            } catch (IOException e) {
+                labelApplicationResponse.setText("Error editing application.");
+                labelApplicationResponse.setVisible(true);
+            }
+        } else {
+            labelApplicationResponse.setText("Please select an application to edit.");
             labelApplicationResponse.setVisible(true);
         }
-    } else {
-        labelApplicationResponse.setText("Please select an application to edit.");
-        labelApplicationResponse.setVisible(true);
-    }
-
     }
 
 

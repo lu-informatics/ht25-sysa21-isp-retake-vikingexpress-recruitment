@@ -31,8 +31,15 @@ public class RecruitmentRegister {
 
 
     public void removeRecruitment(Recruitment recruitment) {
+
+    
+        if (recruitment.getRole() != null) {
+        recruitment.setRole(null);
+        }
+
+    
         this.recruitments.remove(recruitment);
-    }
+}
 
 
     public Recruitment findRecruitmentById(String id) {
