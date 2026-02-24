@@ -274,19 +274,26 @@ appModel.getRecruitmentRegister().removeRecruitment(selected);
 
 
    @FXML
-   public void handleDeleteRole(ActionEvent event) {
-       Role selected = tableViewRoles.getSelectionModel().getSelectedItem();
-       if (selected != null) {
-           List<Recruitment> recruitmentsToRemove = new ArrayList<>(selected.getRecruitments());
-           for (Recruitment recruitment : recruitmentsToRemove) {
+public void handleDeleteRole(ActionEvent event) {
+    Role selected = tableViewRoles.getSelectionModel().getSelectedItem();
+    if (selected != null) {
+        List<Recruitment> recruitmentsToRemove = new ArrayList<>(selected.getRecruitments());
+        for (Recruitment recruitment : recruitmentsToRemove) {
+            appModel.getInterviewRegister().removeInterviewsByRecruitment(recruitment);
+            appModel.getApplicationRegister().removeApplicationsByRecruitment(recruitment);
             appModel.getRecruitmentRegister().removeRecruitment(recruitment);
-           }
-           appModel.getRoleRegister().removeRole(selected);
-           labelRoleResponse.setText("Role deleted successfully.");
-           labelRoleResponse.setVisible(true);
-       } else {
-           labelRoleResponse.setText("Please select a role to delete.");
-           labelRoleResponse.setVisible(true);
+        }
+
+        appModel.getRoleRegister().removeRole(selected);
+        labelRoleResponse.setText("Role deleted successfully.");
+        labelRoleResponse.setVisible(true);
+        tableViewRoles.refresh();
+        tableViewRecruitments.refresh();
+        tableViewApplications.refresh();
+        tableViewInterviews.refresh();
+    } else {
+        labelRoleResponse.setText("Please select a role to delete.");
+        labelRoleResponse.setVisible(true);
     }
 }
 
