@@ -35,6 +35,7 @@ public class MainViewController {
     @FXML private TableColumn<Role, String> colRoleTitle;
     @FXML private TableColumn<Role, String> colRoleDepartment;
     @FXML private TableColumn<Role, String> colRoleDescription;
+    @FXML private TableColumn<Role, Integer> colRoleOngoingRecruitments;
     @FXML private Label labelRoleResponse;
 
 
@@ -96,6 +97,12 @@ public class MainViewController {
         colRoleTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colRoleDepartment.setCellValueFactory(new PropertyValueFactory<>("department"));
         colRoleDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colRoleOngoingRecruitments.setCellValueFactory(cellData ->
+    new javafx.beans.property.SimpleObjectProperty<>(
+        cellData.getValue().getOngoingRecruitmentsCount()
+    )
+);
+
     }
 
 
@@ -172,6 +179,7 @@ public class MainViewController {
             labelRecruitmentResponse.setText("Error adding recruitment.");
             labelRecruitmentResponse.setVisible(true);
         }
+        tableViewRoles.refresh();
     }
 
 
@@ -192,6 +200,8 @@ public class MainViewController {
             labelRecruitmentResponse.setText("Please select a recruitment to edit.");
             labelRecruitmentResponse.setVisible(true);
         }
+        tableViewRoles.refresh();
+
     }
 
 
@@ -206,6 +216,7 @@ public class MainViewController {
             labelRecruitmentResponse.setText("Please select a recruitment to delete.");
             labelRecruitmentResponse.setVisible(true);
         }
+        tableViewRoles.refresh();
     }
 
 
