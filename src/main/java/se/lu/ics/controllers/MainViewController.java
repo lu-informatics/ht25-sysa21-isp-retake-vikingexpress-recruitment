@@ -261,21 +261,21 @@ public class MainViewController {
 
 
     @FXML
-public void handleDeleteRole(ActionEvent event) {
-    Role selected = tableViewRoles.getSelectionModel().getSelectedItem();
-    if (selected != null) {
-        List<Recruitment> recruitmentsToRemove = new ArrayList<>(selected.getRecruitments());
-        for (Recruitment recruitment : recruitmentsToRemove) {
-            appModel.getRecruitmentRegister().removeRecruitment(recruitment);
+    public void handleDeleteRole(ActionEvent event) {
+        Role selected = tableViewRoles.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            List<Recruitment> recruitmentsToRemove = new ArrayList<>(selected.getRecruitments());
+            for (Recruitment recruitment : recruitmentsToRemove) {
+                appModel.getRecruitmentRegister().removeRecruitment(recruitment);
+            }
+            appModel.getRoleRegister().removeRole(selected);
+            labelRoleResponse.setText("Role deleted successfully.");
+            labelRoleResponse.setVisible(true);
+        } else {
+            labelRoleResponse.setText("Please select a role to delete.");
+            labelRoleResponse.setVisible(true);
         }
-        appModel.getRoleRegister().removeRole(selected);
-        labelRoleResponse.setText("Role deleted successfully.");
-        labelRoleResponse.setVisible(true);
-    } else {
-        labelRoleResponse.setText("Please select a role to delete.");
-        labelRoleResponse.setVisible(true);
     }
-}
 
 
     // Candidate handlers
