@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            prefWidth="1200.0" prefHeight="700.0"
+            fx:controller="se.lu.ics.controllers.MainViewController">
+    <children>
+        <TabPane layoutX="0" layoutY="0" prefWidth="1200.0" prefHeight="700.0" tabClosingPolicy="UNAVAILABLE">
+           
+            <!-- Recruitment Tab -->
+            <Tab text="Recruitments">
+                <AnchorPane>
+                    <TableView fx:id="tableViewRecruitments"
+                               layoutX="20" layoutY="20"
+                               prefWidth="1160" prefHeight="550">
+                        <columns>
+                            <TableColumn fx:id="colRecruitmentId" text="ID" prefWidth="120"/>
+                            <TableColumn fx:id="colRecruitmentRole" text="Role" prefWidth="250"/>
+                            <TableColumn fx:id="colRecruitmentPosting" text="Posting Date" prefWidth="150"/>
+                            <TableColumn fx:id="colRecruitmentDeadline" text="Deadline" prefWidth="150"/>
+                            <TableColumn fx:id="colRecruitmentStatus" text="Status" prefWidth="100"/>
+                        </columns>
+                    </TableView>
+                    <Button text="Add" layoutX="20" layoutY="590" onAction="#handleAddRecruitment"/>
+                    <Button text="Edit" layoutX="80" layoutY="590" onAction="#handleEditRecruitment"/>
+                    <Button text="Delete" layoutX="140" layoutY="590" onAction="#handleDeleteRecruitment"/>
+                    <Button text="View Applicants" layoutX="220" layoutY="590" onAction="#handleViewApplicants"/>
+                    <Button text="Statistics" layoutX="1100" layoutY="590" onAction="#handleViewStatistics"/>
+                    <Label fx:id="labelRecruitmentResponse" layoutX="20" layoutY="630"
+                           prefWidth="1000" visible="false"/>
+                </AnchorPane>
+            </Tab>
+           
+            <!-- Role Tab -->
+            <Tab text="Roles">
+                <AnchorPane>
+                    <TableView fx:id="tableViewRoles"
+                               layoutX="20" layoutY="20"
+                               prefWidth="1160" prefHeight="550">
+                        <columns>
+                            <TableColumn fx:id="colRoleId" text="ID" prefWidth="100"/>
+                            <TableColumn fx:id="colRoleTitle" text="Title" prefWidth="200"/>
+                            <TableColumn fx:id="colRoleDepartment" text="Department" prefWidth="200"/>
+                            <TableColumn fx:id="colRoleDescription" text="Description" prefWidth="400"/>
+                        </columns>
+                    </TableView>
+                    <Button text="Add" layoutX="20" layoutY="590" onAction="#handleAddRole"/>
+                    <Button text="Edit" layoutX="80" layoutY="590" onAction="#handleEditRole"/>
+                    <Button text="Delete" layoutX="140" layoutY="590" onAction="#handleDeleteRole"/>
+                    <Label fx:id="labelRoleResponse" layoutX="20" layoutY="630"
+                           prefWidth="1000" visible="false"/>
+                </AnchorPane>
+            </Tab>
+           
+            <!-- Candidate Tab -->
+            <Tab text="Candidates">
+                <AnchorPane>
+                    <TableView fx:id="tableViewCandidates"
+                               layoutX="20" layoutY="20"
+                               prefWidth="1160" prefHeight="550">
+                        <columns>
+                            <TableColumn fx:id="colCandidateId" text="ID" prefWidth="120"/>
+                            <TableColumn fx:id="colCandidateName" text="Name" prefWidth="250"/>
+                            <TableColumn fx:id="colCandidateEmail" text="Email" prefWidth="300"/>
+                            <TableColumn fx:id="colCandidatePhone" text="Phone" prefWidth="150"/>
+                        </columns>
+                    </TableView>
+                    <Button text="Add" layoutX="20" layoutY="590" onAction="#handleAddCandidate"/>
+                    <Button text="Edit" layoutX="80" layoutY="590" onAction="#handleEditCandidate"/>
+                    <Button text="Delete" layoutX="140" layoutY="590" onAction="#handleDeleteCandidate"/>
+                    <Button text="View History" layoutX="220" layoutY="590" onAction="#handleViewCandidateHistory"/>
+                    <Label fx:id="labelCandidateResponse" layoutX="20" layoutY="630"
+                           prefWidth="1000" visible="false"/>
+                </AnchorPane>
+            </Tab>
+           
+            <!-- Interview Tab -->
+            <Tab text="Interviews">
+                <AnchorPane>
+                    <TableView fx:id="tableViewInterviews"
+                               layoutX="20" layoutY="20"
+                               prefWidth="1160" prefHeight="550">
+                        <columns>
+                            <TableColumn fx:id="colInterviewId" text="ID" prefWidth="100"/>
+                            <TableColumn fx:id="colInterviewCandidate" text="Candidate" prefWidth="200"/>
+                            <TableColumn fx:id="colInterviewRecruitment" text="Recruitment" prefWidth="150"/>
+                            <TableColumn fx:id="colInterviewDateTime" text="Date and Time" prefWidth="180"/>
+                            <TableColumn fx:id="colInterviewLocation" text="Location" prefWidth="200"/>
+                            <TableColumn fx:id="colInterviewInterviewer" text="Interviewer" prefWidth="200"/>
+                        </columns>
+                    </TableView>
+                    <Button text="Book" layoutX="20" layoutY="590" onAction="#handleBookInterview"/>
+                    <Button text="Edit" layoutX="80" layoutY="590" onAction="#handleEditInterview"/>
+                    <Button text="Delete" layoutX="140" layoutY="590" onAction="#handleDeleteInterview"/>
+                    <Label fx:id="labelInterviewResponse" layoutX="20" layoutY="630"
+                           prefWidth="1000" visible="false"/>
+                </AnchorPane>
+            </Tab>
+           
+            <!-- Application Tab -->
+            <Tab text="Applications">
+                <AnchorPane>
+                    <TableView fx:id="tableViewApplications"
+                               layoutX="20" layoutY="20"
+                               prefWidth="1160" prefHeight="550">
+                        <columns>
+                            <TableColumn fx:id="colApplicationId" text="ID" prefWidth="120"/>
+                            <TableColumn fx:id="colApplicationCandidate" text="Candidate" prefWidth="250"/>
+                            <TableColumn fx:id="colApplicationRecruitment" text="Recruitment" prefWidth="200"/>
+                            <TableColumn fx:id="colApplicationDate" text="Application Date" prefWidth="180"/>
+                            <TableColumn fx:id="colApplicationRanking" text="Ranking" prefWidth="100"/>
+                        </columns>
+                    </TableView>
+                    <Button text="Add" layoutX="20" layoutY="590" onAction="#handleAddApplication"/>
+                    <Button text="Edit" layoutX="80" layoutY="590" onAction="#handleEditApplication"/>
+                    <Button text="Delete" layoutX="140" layoutY="590" onAction="#handleDeleteApplication"/>
+                    <Label fx:id="labelApplicationResponse" layoutX="20" layoutY="630"
+                           prefWidth="1000" visible="false"/>
+                </AnchorPane>
+            </Tab>
+           
+        </TabPane>
+    </children>
+</AnchorPane>
