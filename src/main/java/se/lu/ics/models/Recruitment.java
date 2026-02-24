@@ -140,4 +140,28 @@ public class Recruitment {
     public String toString() {
         return id + " - " + (role != null ? role.getTitle() : "No role");
     }
+
+public void updateOfferStatusFromApplications() {
+    boolean hasAccepted = false;
+    LocalDate latestAcceptance = null;
+
+    for (Application app : applications) {
+        if (app.isOfferAccepted() && app.getOfferAcceptedDate() != null) {
+            hasAccepted = true;
+            if (latestAcceptance == null || app.getOfferAcceptedDate().isAfter(latestAcceptance)) {
+                latestAcceptance = app.getOfferAcceptedDate();
+            }
+        }
+    }
+
+    if (hasAccepted) {
+        this.status = "Filled";
+        this.offerAcceptedDate = latestAcceptance;
+    } else {
+        this.offerAcceptedDate = null;
+        if (!"Closed".equals(this.status)) {
+            this.status = "Open";
+        }
+    }
+}
 }
