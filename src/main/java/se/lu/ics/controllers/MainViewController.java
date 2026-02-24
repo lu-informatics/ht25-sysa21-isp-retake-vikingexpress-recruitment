@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainViewController {
@@ -261,20 +263,19 @@ appModel.getRecruitmentRegister().removeRecruitment(selected);
 
 
    @FXML
-public void handleDeleteRole(ActionEvent event) {
-    Role selected = tableViewRoles.getSelectionModel().getSelectedItem();
-    if (selected != null) {
-        if (!selected.getRecruitments().isEmpty()) {
-            labelRoleResponse.setText("Cannot delete role with existing recruitments.");
-            labelRoleResponse.setVisible(true);
-            return;
-        }
-        appModel.getRoleRegister().removeRole(selected);
-        labelRoleResponse.setText("Role deleted successfully.");
-        labelRoleResponse.setVisible(true);
-    } else {
-        labelRoleResponse.setText("Please select a role to delete.");
-        labelRoleResponse.setVisible(true);
+   public void handleDeleteRole(ActionEvent event) {
+       Role selected = tableViewRoles.getSelectionModel().getSelectedItem();
+       if (selected != null) {
+           List<Recruitment> recruitmentsToRemove = new ArrayList<>(selected.getRecruitments());
+           for (Recruitment recruitment : recruitmentsToRemove) {
+            appModel.getRecruitmentRegister().removeRecruitment(recruitment);
+           }
+           appModel.getRoleRegister().removeRole(selected);
+           labelRoleResponse.setText("Role deleted successfully.");
+           labelRoleResponse.setVisible(true);
+       } else {
+           labelRoleResponse.setText("Please select a role to delete.");
+           labelRoleResponse.setVisible(true);
     }
 }
 
