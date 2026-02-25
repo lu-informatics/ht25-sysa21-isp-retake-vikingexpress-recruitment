@@ -1,36 +1,70 @@
 package se.lu.ics.models;
 
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 
 public class InterviewRegister {
     private ObservableList<Interview> interviews;
     private int interviewCounter;
-
 
     public InterviewRegister() {
         this.interviews = FXCollections.observableArrayList();
         this.interviewCounter = 1;
     }
 
-
     public ObservableList<Interview> getInterviews() {
         return FXCollections.unmodifiableObservableList(this.interviews);
     }
-
 
     public void addInterview(Interview interview) {
         this.interviews.add(interview);
     }
 
-
     public void removeInterview(Interview interview) {
+        if (interview == null) {
+            return;
+        }
+
+        if (interview.getCandidate() != null) {
+            interview.getCandidate().removeInterview(interview);
+        }
+
         this.interviews.remove(interview);
     }
 
+    public void removeInterviewsByCandidate(Candidate candidate) {
+        if (candidate == null) {
+            return;
+        }
 
+        ObservableList<Interview> toRemove = FXCollections.observableArrayList();
+        for (Interview interview : interviews) {
+            if (candidate.equals(interview.getCandidate())) {
+                toRemove.add(interview);
+            }
+        }
+
+        for (Interview interview : toRemove) {
+            removeInterview(interview);
+        }
+    }
+
+    public void removeInterviewsByRecruitment(Recruitment recruitment) {
+        if (recruitment == null) {
+            return;
+        }
+
+        ObservableList<Interview> toRemove = FXCollections.observableArrayList();
+        for (Interview interview : interviews) {
+            if (recruitment.equals(interview.getRecruitment())) {
+                toRemove.add(interview);
+            }
+        }
+
+        for (Interview interview : toRemove) {
+            removeInterview(interview);
+        }
+    }
 
     public Interview findInterviewById(String id) {
         for (Interview interview : interviews) {
@@ -40,29 +74,6 @@ public class InterviewRegister {
         }
         return null;
     }
-public void removeInterviewsByRecruitment(Recruitment recruitment) {
-    ObservableList<Interview> toRemove = FXCollections.observableArrayList();
-    for (Interview interview : interviews) {
-        if (interview.getRecruitment() != null && interview.getRecruitment().equals(recruitment)) {
-            toRemove.add(interview);
-        }
-    }
-    for (Interview interview : toRemove) {
-        removeInterview(interview);
-    }
-}public void removeInterviewsByCandidate(Candidate candidate) {
-    ObservableList<Interview> toRemove = FXCollections.observableArrayList();
-    for (Interview interview : interviews) {
-        if (interview.getCandidate() != null && interview.getCandidate().equals(candidate)) {
-            toRemove.add(interview);
-        }
-    }
-    for (Interview interview : toRemove) {
-        removeInterview(interview);
-    }
-}
-
-
 
     public String generateInterviewId() {
         String id = String.format("INT-%05d", interviewCounter);
@@ -70,20 +81,16 @@ public void removeInterviewsByRecruitment(Recruitment recruitment) {
         return id;
     }
 
-
     public void setInterviewCounter(int counter) {
         this.interviewCounter = counter;
     }
 
-
     public double getAverageInterviewsPerOffer() {
-       
         int totalInterviews = 0;
         int offersAccepted = 0;
-       
-       
+
         ObservableList<Recruitment> recruitmentsWithOffers = FXCollections.observableArrayList();
-       
+
         for (Interview interview : interviews) {
             Recruitment recruitment = interview.getRecruitment();
             if (recruitment != null && recruitment.getOfferAcceptedDate() != null) {
@@ -92,19 +99,18 @@ public void removeInterviewsByRecruitment(Recruitment recruitment) {
                 }
             }
         }
-       
-       
+
         for (Recruitment recruitment : recruitmentsWithOffers) {
             int interviewsForRecruitment = 0;
             for (Interview interview : interviews) {
-                if (interview.getRecruitment().equals(recruitment)) {
+                if (recruitment.equals(interview.getRecruitment())) {
                     interviewsForRecruitment++;
                 }
             }
             totalInterviews += interviewsForRecruitment;
             offersAccepted++;
         }
-       
+
         return offersAccepted > 0 ? (double) totalInterviews / offersAccepted : 0.0;
     }
 }

@@ -1,11 +1,11 @@
 package se.lu.ics.controllers;
 
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import se.lu.ics.models.*;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,11 +13,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class MainViewController {
     private AppModel appModel;
     private AppController appController;
-
 
     // Recruitment Tab
     @FXML private TableView<Recruitment> tableViewRecruitments;
@@ -28,7 +26,6 @@ public class MainViewController {
     @FXML private TableColumn<Recruitment, String> colRecruitmentStatus;
     @FXML private Label labelRecruitmentResponse;
 
-
     // Role Tab
     @FXML private TableView<Role> tableViewRoles;
     @FXML private TableColumn<Role, String> colRoleId;
@@ -38,7 +35,6 @@ public class MainViewController {
     @FXML private TableColumn<Role, Integer> colRoleOngoingRecruitments;
     @FXML private Label labelRoleResponse;
 
-
     // Candidate Tab
     @FXML private TableView<Candidate> tableViewCandidates;
     @FXML private TableColumn<Candidate, String> colCandidateId;
@@ -46,7 +42,6 @@ public class MainViewController {
     @FXML private TableColumn<Candidate, String> colCandidateEmail;
     @FXML private TableColumn<Candidate, String> colCandidatePhone;
     @FXML private Label labelCandidateResponse;
-
 
     // Interview Tab
     @FXML private TableView<Interview> tableViewInterviews;
@@ -58,7 +53,6 @@ public class MainViewController {
     @FXML private TableColumn<Interview, String> colInterviewInterviewer;
     @FXML private Label labelInterviewResponse;
 
-
     // Application Tab
     @FXML private TableView<Application> tableViewApplications;
     @FXML private TableColumn<Application, String> colApplicationId;
@@ -68,7 +62,6 @@ public class MainViewController {
     @FXML private TableColumn<Application, Integer> colApplicationRanking;
     @FXML private Label labelApplicationResponse;
 
-
     public void initialize() {
         setupRecruitmentTable();
         setupRoleTable();
@@ -76,7 +69,6 @@ public class MainViewController {
         setupInterviewTable();
         setupApplicationTable();
     }
-
 
     private void setupRecruitmentTable() {
         colRecruitmentId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -91,20 +83,17 @@ public class MainViewController {
         colRecruitmentStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
 
-
     private void setupRoleTable() {
         colRoleId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colRoleTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colRoleDepartment.setCellValueFactory(new PropertyValueFactory<>("department"));
         colRoleDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         colRoleOngoingRecruitments.setCellValueFactory(cellData ->
-    new javafx.beans.property.SimpleObjectProperty<>(
-        cellData.getValue().getOngoingRecruitmentsCount()
-    )
-);
-
+            new javafx.beans.property.SimpleObjectProperty<>(
+                cellData.getValue().getOngoingRecruitmentsCount()
+            )
+        );
     }
-
 
     private void setupCandidateTable() {
         colCandidateId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -112,7 +101,6 @@ public class MainViewController {
         colCandidateEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colCandidatePhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
     }
-
 
     private void setupInterviewTable() {
         colInterviewId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -131,11 +119,10 @@ public class MainViewController {
         colInterviewDateTime.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
         colInterviewLocation.setCellValueFactory(new PropertyValueFactory<>("location"));
         colInterviewInterviewer.setCellValueFactory(new PropertyValueFactory<>("interviewer"));
-       
-        // Format datetime display
+
         colInterviewDateTime.setCellFactory(column -> new TableCell<Interview, LocalDateTime>() {
             private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-           
+
             @Override
             protected void updateItem(LocalDateTime item, boolean empty) {
                 super.updateItem(item, empty);
@@ -147,7 +134,6 @@ public class MainViewController {
             }
         });
     }
-
 
     private void setupApplicationTable() {
         colApplicationId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -167,7 +153,6 @@ public class MainViewController {
         colApplicationRanking.setCellValueFactory(new PropertyValueFactory<>("ranking"));
     }
 
-
     // Recruitment handlers
     @FXML
     public void handleAddRecruitment(ActionEvent event) {
@@ -181,7 +166,6 @@ public class MainViewController {
         }
         tableViewRoles.refresh();
     }
-
 
     @FXML
     public void handleEditRecruitment(ActionEvent event) {
@@ -201,14 +185,14 @@ public class MainViewController {
             labelRecruitmentResponse.setVisible(true);
         }
         tableViewRoles.refresh();
-
     }
-
 
     @FXML
     public void handleDeleteRecruitment(ActionEvent event) {
         Recruitment selected = tableViewRecruitments.getSelectionModel().getSelectedItem();
         if (selected != null) {
+            appModel.getInterviewRegister().removeInterviewsByRecruitment(selected);
+            appModel.getApplicationRegister().removeApplicationsByRecruitment(selected);
             appModel.getRecruitmentRegister().removeRecruitment(selected);
             labelRecruitmentResponse.setText("Recruitment deleted successfully.");
             labelRecruitmentResponse.setVisible(true);
@@ -218,7 +202,6 @@ public class MainViewController {
         }
         tableViewRoles.refresh();
     }
-
 
     @FXML
     public void handleViewApplicants(ActionEvent event) {
@@ -236,7 +219,6 @@ public class MainViewController {
         }
     }
 
-
     // Role handlers
     @FXML
     public void handleAddRole(ActionEvent event) {
@@ -249,7 +231,6 @@ public class MainViewController {
             labelRoleResponse.setVisible(true);
         }
     }
-
 
     @FXML
     public void handleEditRole(ActionEvent event) {
@@ -270,29 +251,27 @@ public class MainViewController {
         }
     }
 
-
     @FXML
     public void handleDeleteRole(ActionEvent event) {
         Role selected = tableViewRoles.getSelectionModel().getSelectedItem();
-
-        if (selected == null) {
-           labelRoleResponse.setText("Please select a role to delete.");
-           labelRoleResponse.setVisible(true);
-           return;
-    }
-
-   
-    if (!selected.getRecruitments().isEmpty()) {
-        labelRoleResponse.setText(
-            "Cannot delete role. Remove associated recruitments first."
-        );
-        labelRoleResponse.setVisible(true);
-        return;
-    }
-
-    appModel.getRoleRegister().removeRole(selected);
-    labelRoleResponse.setText("Role deleted successfully.");
-    labelRoleResponse.setVisible(true);
+        if (selected != null) {
+            List<Recruitment> recruitmentsToRemove = new ArrayList<>(selected.getRecruitments());
+            for (Recruitment recruitment : recruitmentsToRemove) {
+                appModel.getInterviewRegister().removeInterviewsByRecruitment(recruitment);
+                appModel.getApplicationRegister().removeApplicationsByRecruitment(recruitment);
+                appModel.getRecruitmentRegister().removeRecruitment(recruitment);
+            }
+            appModel.getRoleRegister().removeRole(selected);
+            labelRoleResponse.setText("Role deleted successfully.");
+            labelRoleResponse.setVisible(true);
+            tableViewRoles.refresh();
+            tableViewRecruitments.refresh();
+            tableViewApplications.refresh();
+            tableViewInterviews.refresh();
+        } else {
+            labelRoleResponse.setText("Please select a role to delete.");
+            labelRoleResponse.setVisible(true);
+        }
     }
 
     // Candidate handlers
@@ -307,7 +286,6 @@ public class MainViewController {
             labelCandidateResponse.setVisible(true);
         }
     }
-
 
     @FXML
     public void handleEditCandidate(ActionEvent event) {
@@ -328,11 +306,11 @@ public class MainViewController {
         }
     }
 
-
     @FXML
     public void handleDeleteCandidate(ActionEvent event) {
         Candidate selected = tableViewCandidates.getSelectionModel().getSelectedItem();
         if (selected != null) {
+            appModel.getInterviewRegister().removeInterviewsByCandidate(selected);
             appModel.getApplicationRegister().removeApplicationsByCandidate(selected);
             appModel.getCandidateRegister().removeCandidate(selected);
             labelCandidateResponse.setText("Candidate deleted successfully.");
@@ -342,7 +320,6 @@ public class MainViewController {
             labelCandidateResponse.setVisible(true);
         }
     }
-
 
     @FXML
     public void handleViewCandidateHistory(ActionEvent event) {
@@ -360,7 +337,6 @@ public class MainViewController {
         }
     }
 
-
     // Interview handlers
     @FXML
     public void handleBookInterview(ActionEvent event) {
@@ -373,7 +349,6 @@ public class MainViewController {
             labelInterviewResponse.setVisible(true);
         }
     }
-
 
     @FXML
     public void handleEditInterview(ActionEvent event) {
@@ -394,7 +369,6 @@ public class MainViewController {
         }
     }
 
-
     @FXML
     public void handleDeleteInterview(ActionEvent event) {
         Interview selected = tableViewInterviews.getSelectionModel().getSelectedItem();
@@ -407,7 +381,6 @@ public class MainViewController {
             labelInterviewResponse.setVisible(true);
         }
     }
-
 
     // Application handlers
     @FXML
@@ -422,7 +395,6 @@ public class MainViewController {
         }
     }
 
-
     @FXML
     public void handleEditApplication(ActionEvent event) {
         Application selected = tableViewApplications.getSelectionModel().getSelectedItem();
@@ -430,6 +402,7 @@ public class MainViewController {
             try {
                 appController.showApplicationDialog(selected);
                 tableViewApplications.refresh();
+                tableViewRecruitments.refresh();
                 labelApplicationResponse.setText("Application updated successfully.");
                 labelApplicationResponse.setVisible(true);
             } catch (IOException e) {
@@ -441,7 +414,6 @@ public class MainViewController {
             labelApplicationResponse.setVisible(true);
         }
     }
-
 
     @FXML
     public void handleDeleteApplication(ActionEvent event) {
@@ -456,7 +428,6 @@ public class MainViewController {
         }
     }
 
-
     @FXML
     public void handleViewStatistics(ActionEvent event) {
         try {
@@ -467,7 +438,6 @@ public class MainViewController {
         }
     }
 
-
     private void populateTables() {
         tableViewRecruitments.setItems(appModel.getRecruitmentRegister().getRecruitments());
         tableViewRoles.setItems(appModel.getRoleRegister().getRoles());
@@ -476,12 +446,10 @@ public class MainViewController {
         tableViewApplications.setItems(appModel.getApplicationRegister().getApplications());
     }
 
-
     public void setAppModel(AppModel appModel) {
         this.appModel = appModel;
         populateTables();
     }
-
 
     public void setAppController(AppController appController) {
         this.appController = appController;
